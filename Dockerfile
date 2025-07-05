@@ -10,18 +10,20 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy all files from your project to /app inside the container
+# Copy all project files
 COPY . /app
 
-# Install Python dependencies
+# Copy and install Python dependencies from root-level requirements.txt
+COPY requirements.txt .
 RUN pip install --upgrade pip
-RUN pip install -r model/requirements.txt
+RUN pip install -r requirements.txt
 
 # Set environment variable to allow Flask to run
 ENV FLASK_APP=server/server.py
 
-# Expose port 5000 to the outside world
+# Expose port 5000
 EXPOSE 5000
 
-# Run your app
+# Run the Flask app
 CMD ["python", "server/server.py"]
+
